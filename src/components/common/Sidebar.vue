@@ -62,6 +62,11 @@ export default {
                     title: '系统首页'
                 },
                 {
+                    icon: 'el-icon-lx-home',
+                    index: 'test',
+                    title: '测试demo'
+                },
+                {
                     icon: 'el-icon-lx-cascades',
                     index: 'table',
                     title: '基础表格'
