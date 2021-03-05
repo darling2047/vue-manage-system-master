@@ -88,8 +88,7 @@
 </template>
 
 <script>
-    import {testData} from '../../../api/mock';
-
+    import {test} from "../../../api/api";
     export default {
         name: 'basetable',
         data() {
@@ -114,12 +113,11 @@
             this.getData();
         },
         methods: {
-            // 获取 easy-mock 的模拟数据
             getData() {
-                testData(this.query).then(res => {
+                test.testData(this.query).then(res => {
                     console.log(res);
-                        this.tableData = res.list;
-                        this.pageTotal = res.pageTotal || 50;
+                    this.tableData = res.list;
+                    this.pageTotal = res.pageTotal || 50;
                 });
             },
             // 触发搜索按钮
