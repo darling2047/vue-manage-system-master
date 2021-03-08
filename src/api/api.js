@@ -1,14 +1,22 @@
 import request from '../utils/request';
+
 let baseUrl = 'http://localhost:9090';
 // 登录
 export const login = {
-  doLogin : params => {
-      return request({
-          url: baseUrl+'/system/doLogin',
-          method: 'post',
-          params: params
-      });
-  }
+    doLogin: params => {
+        return request({
+            url: baseUrl + '/system/doLogin',
+            method: 'post',
+            params: params
+        });
+    },
+    getMenus: params => {
+        return request({
+            url: baseUrl + '/system/getMenus',
+            method: 'get',
+            params: params
+        });
+    }
 };
 
 
