@@ -106,6 +106,11 @@ export default new Router({
                     path: '/test',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/test/test.vue'),
                     meta: { title: '设备列表' }
+                },
+                {
+                    path: '/userInfo',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/sys/userInfo.vue'),
+                    meta: { title: '用户列表' }
                 }
             ]
         },

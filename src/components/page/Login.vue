@@ -28,7 +28,8 @@
 </template>
 
 <script>
-    import {login} from "../../api/api";
+    import {sys} from "../../api/api";
+    import {encrypt} from "../../utils/encrypt";
 export default {
     data: function() {
         return {
@@ -46,9 +47,11 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
+                    var pwd = encrypt(this.param.password);
+                    this.param.password = pwd;
                     console.log('ms_username', this.param.loginName);
                     console.log('ms_username', this.param.password);
-                    login.doLogin(this.param).then(res => {
+                    sys.doLogin(this.param).then(res => {
                         if (res.status == 1) {
                             this.$message({
                                 message: res.msg,
