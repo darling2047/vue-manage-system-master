@@ -111,6 +111,11 @@ export default new Router({
                     path: '/userInfo',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/sys/userInfo.vue'),
                     meta: { title: '用户列表' }
+                },
+                {
+                    path: '/dynamicForm',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/dynamicForm/container.vue'),
+                    meta: { title: '动态表单配置' }
                 }
             ]
         },
