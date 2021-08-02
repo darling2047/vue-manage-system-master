@@ -17,6 +17,7 @@
                         <el-input v-model="query.loginName" placeholder="登录账号"></el-input>
                     </el-form-item>
                     <el-form-item>
+                        <el-button type="primary" @click="addUserBtn">新增</el-button>
                         <el-button type="primary" @click="onSubmit">查询</el-button>
                     </el-form-item>
                 </el-form>
@@ -119,6 +120,11 @@
         methods: {
             onSubmit() {
                 this.getData();
+            },
+            addUserBtn() {
+                this.updateFlag = "add";
+                this.form = {};
+                this.editVisible = true;
             },
             getData() {
                 sys.getUsers(this.query).then(res => {

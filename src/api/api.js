@@ -1,6 +1,7 @@
 import request from '../utils/request';
 
-let baseUrl = 'http://localhost:9090';
+let baseUrl = 'http://121.199.58.24:9090';
+// let baseUrl = 'http://127.0.0.1:9090';
 // 登录
 export const sys = {
     doLogin: params => {
