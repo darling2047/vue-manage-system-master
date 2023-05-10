@@ -7,7 +7,8 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            //redirect: '/dashboard'
+            redirect: '/roomList'
         },
         {
             path: '/',
@@ -111,6 +112,10 @@ export default new Router({
                     path: '/userInfo',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/sys/userInfo.vue'),
                     meta: { title: '用户列表' }
+                },{
+                    path: '/roomList',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/roomList.vue'),
+                    meta: { title: '房屋清算列表' }
                 },
                 {
                     path: '/dynamicForm',

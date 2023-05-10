@@ -1,6 +1,9 @@
 import request from '../utils/request';
 
-let baseUrl = 'http://121.199.58.24:9090';
+// 民宿项目生产地址
+let baseUrl = 'http://112.124.56.76:9090';
+// 设备管理项目生产地址
+// let baseUrl = 'http://121.199.58.24:9090';
 // let baseUrl = 'http://127.0.0.1:9090';
 // 登录
 export const sys = {
@@ -21,6 +24,20 @@ export const sys = {
     getUsers: params => {
         return request({
             url: baseUrl + '/user/getUserInfo',
+            method: 'get',
+            params: params
+        });
+    },
+    getRoomList: params => {
+        return request({
+            url: baseUrl + '/roomAudit/getList',
+            method: 'get',
+            params: params
+        });
+    },
+    getTgfd: params => {
+        return request({
+            url: baseUrl + '/roomAudit/getSelectData',
             method: 'get',
             params: params
         });
