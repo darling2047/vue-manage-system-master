@@ -14,7 +14,7 @@
                         <el-input v-model="query.roomName" placeholder="姓名"></el-input>
                     </el-form-item>
                     <el-form-item label="月份">
-                        <el-select v-model="query.month" placeholder="房间名称" class="handle-select mr10">
+                        <el-select v-model="query.month" placeholder="月份" class="handle-select mr10" clearable>
                             <el-option key="1" label="202302" value="202302"></el-option>
                             <el-option key="2" label="202303" value="202303"></el-option>
                             <el-option key="3" label="202304" value="202304"></el-option>
@@ -22,7 +22,8 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="托管房东">
-                        <el-select v-model="query.tgfd" placeholder="托管房东" class="handle-select mr10" remote filterable :remote-method="remoteMethod">
+                        <el-select v-model="query.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
+                                   filterable :remote-method="remoteMethod">
                             <el-option :label="item.name" :value="item.name" v-for="item in seleData"
                                        :key="item.name"></el-option>
                         </el-select>
@@ -32,6 +33,7 @@
                                                 <el-button type="primary" @click="addUserBtn">新增</el-button>
                         -->
                         <el-button type="primary" @click="onSubmit">查询</el-button>
+                        <el-button type="primary" @click="onExport">导出</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -147,22 +149,14 @@
         },
         methods: {
             remoteMethod(query) {
-                if (query !== '') {
-                    this.loading = true;
-                    this.getTgfd(query)
-                    // setTimeout(() => {
-                    //     this.loading = false;
-                    //     // this.options = this.list.filter(item => {
-                    //     //     return item.label.toLowerCase()
-                    //     //         .indexOf(query.toLowerCase()) > -1;
-                    //     // });
-                    // }, 200);
-                } else {
-                    this.options = [];
-                }
+                this.loading = true;
+                this.getTgfd(query)
             },
             onSubmit() {
                 this.getData();
+            },
+            onExport() {
+                this.doExport();
             },
             addUserBtn() {
                 this.updateFlag = "add";
@@ -179,6 +173,13 @@
                     this.tableData = res.data;
                     this.pageTotal = res.count;
                 });
+            },
+            doExport() {
+                window.open('http://112.124.56.76:9090/roomAudit/downLoad?' +
+                    'roomName=' + this.query.roomName +
+                    '&month=' + this.query.month +
+                    '&tgfd=' + this.query.tgfd
+                );
             },
             // 触发搜索按钮
             handleSearch() {
@@ -247,6 +248,7 @@
             },
             getTgfd(val) {
                 this.seleData = []
+                // let name = {'name': val}
                 sys.getTgfd(val).then(res => {
                     console.log(res);
                     this.seleData = res;
