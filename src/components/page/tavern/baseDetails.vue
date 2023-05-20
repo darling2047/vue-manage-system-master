@@ -3,97 +3,18 @@
        <!-- <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 房屋清算列表
+                    <i class="el-icon-lx-cascades"></i> 结算核查清单
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>-->
-        <div class="container">
-            <div class="handle-box">
-                <el-form :inline="true" :model="query" class="demo-form-inline">
-                    <el-form-item label="房间名称">
-                        <el-input v-model="query.roomName" placeholder="姓名"></el-input>
-                    </el-form-item>
-                    <el-form-item label="月份">
-                        <el-select v-model="query.month" placeholder="月份" class="handle-select mr10" clearable>
-                            <el-option key="1" label="202302" value="202302"></el-option>
-                            <el-option key="2" label="202303" value="202303"></el-option>
-                            <el-option key="3" label="202304" value="202304"></el-option>
-                            <el-option key="4" label="202305" value="202305"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="托管房东">
-                        <el-select v-model="query.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
-                                   filterable :remote-method="remoteMethod">
-                            <el-option :label="item.name" :value="item.name" v-for="item in seleData"
-                                       :key="item.name"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item>
-                        <!--
-                                                <el-button type="primary" @click="addUserBtn">新增</el-button>
-                        -->
-                        <el-button type="primary" @click="onSubmit">查询</el-button>
-                        <el-button type="primary" @click="onExport">导出</el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
-            <el-table
-                    :data="tableData"
-                    border
-                    class="table"
-                    ref="multipleTable"
-                    header-cell-class-name="table-header"
-                    @selection-change="handleSelectionChange"
-            >
-                <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                <el-table-column prop="proName" label="省份" align="center"></el-table-column>
-                <el-table-column prop="cityName" label="地市" align="center"></el-table-column>
-                <el-table-column prop="countyName" label="区县" align="center"></el-table-column>
-                <el-table-column prop="area" label="区域" align="center"></el-table-column>
-                <el-table-column prop="roomName" label="房屋名称" width="200" align="center"></el-table-column>
-                <el-table-column prop="roomType" label="房型" align="center"></el-table-column>
-                <el-table-column prop="rzDays" label="入住天数" align="center"></el-table-column>
-                <el-table-column prop="priceClean" label="平台打款"></el-table-column>
-                <el-table-column prop="actualZj" label="房租"></el-table-column>
-                <el-table-column prop="khFee" label="客耗品"></el-table-column>
-                <el-table-column prop="bjFee" label="保洁"></el-table-column>
-                <el-table-column prop="bcExpend" label="布草开支"></el-table-column>
-                <el-table-column prop="dailyExpend" label="日常开支"></el-table-column>
-                <el-table-column prop="sumExpend" label="开支总计"></el-table-column>
-                <el-table-column prop="commission" label="佣金"></el-table-column>
-                <el-table-column prop="netProfits" label="净利润"></el-table-column>
-                <el-table-column prop="jinFee" label="金总收款金额"></el-table-column>
-                <el-table-column prop="settlementAmount" label="结算金额"></el-table-column>
-                <el-table-column prop="remark" label="备注" width="200" align="center"></el-table-column>
-                <!--<el-table-column label="操作" width="180" align="center">
-                    <template slot-scope="scope">
-                        <el-button
-                                type="text"
-                                icon="el-icon-edit"
-                                @click="handleEdit(scope.$index, scope.row)"
-                        >编辑
-                        </el-button>
-                        <el-button
-                                type="text"
-                                icon="el-icon-delete"
-                                class="red"
-                                @click="handleDelete(scope.$index, scope.row)"
-                        >删除
-                        </el-button>
-                    </template>
-                </el-table-column>-->
-            </el-table>
-            <div class="pagination">
-                <el-pagination
-                        background
-                        layout="total, prev, pager, next"
-                        :current-page="query.currentPageNo"
-                        :page-size="query.pageSize"
-                        :total="pageTotal"
-                        @current-change="handlePageChange"
-                ></el-pagination>
-            </div>
-        </div>
+        <el-tabs type="border-card">
+            <el-tab-pane label="保洁列表">
+                <bjList ref='bjList'></bjList>
+            </el-tab-pane>
+            <el-tab-pane label="钉钉报销品类列表">
+                <dingBxList ref="dingBxList"></dingBxList>
+            </el-tab-pane>
+        </el-tabs>
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
@@ -118,7 +39,8 @@
 
 <script>
     import {sys} from "../../../api/api";
-
+    import bjList from './bjList';
+    import dingBxList from './dingBxList';
     export default {
         name: 'basetable',
         data() {
@@ -146,6 +68,10 @@
         created() {
             this.getData();
             this.getTgfd();
+        },
+        components:{
+            bjList,
+            dingBxList
         },
         methods: {
             remoteMethod(query) {

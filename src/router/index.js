@@ -116,6 +116,10 @@ export default new Router({
                     path: '/roomList',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/roomList.vue'),
                     meta: { title: '房屋清算列表' }
+                },{
+                    path: '/baseDetails',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/baseDetails.vue'),
+                    meta: { title: '房屋清算清单' }
                 },
                 {
                     path: '/dynamicForm',

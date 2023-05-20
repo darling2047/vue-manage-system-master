@@ -46,25 +46,20 @@
                     @selection-change="handleSelectionChange"
             >
                 <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                <el-table-column prop="proName" label="省份" align="center"></el-table-column>
-                <el-table-column prop="cityName" label="地市" align="center"></el-table-column>
-                <el-table-column prop="countyName" label="区县" align="center"></el-table-column>
-                <el-table-column prop="area" label="区域" align="center"></el-table-column>
-                <el-table-column prop="roomName" label="房屋名称" width="200" align="center"></el-table-column>
-                <el-table-column prop="roomType" label="房型" align="center"></el-table-column>
-                <el-table-column prop="rzDays" label="入住天数" align="center"></el-table-column>
-                <el-table-column prop="priceClean" label="平台打款"></el-table-column>
-                <el-table-column prop="actualZj" label="房租"></el-table-column>
-                <el-table-column prop="khFee" label="客耗品"></el-table-column>
-                <el-table-column prop="bjFee" label="保洁"></el-table-column>
-                <el-table-column prop="bcExpend" label="布草开支"></el-table-column>
-                <el-table-column prop="dailyExpend" label="日常开支"></el-table-column>
-                <el-table-column prop="sumExpend" label="开支总计"></el-table-column>
-                <el-table-column prop="commission" label="佣金"></el-table-column>
-                <el-table-column prop="netProfits" label="净利润"></el-table-column>
-                <el-table-column prop="jinFee" label="金总收款金额"></el-table-column>
-                <el-table-column prop="settlementAmount" label="结算金额"></el-table-column>
-                <el-table-column prop="remark" label="备注" width="200" align="center"></el-table-column>
+                <el-table-column prop="id" label="id" align="center"></el-table-column>
+                <el-table-column prop="roomNo" label="房间" align="center"></el-table-column>
+                <el-table-column prop="tgfd" label="托管房东" align="center"></el-table-column>
+                <el-table-column prop="taskDate" label="打扫日期" align="center"></el-table-column>
+                <el-table-column prop="workerName" label="保洁员" align="center"></el-table-column>
+                <el-table-column prop="workerMobile" label="保洁员手机号" width="200" align="center"></el-table-column>
+                <el-table-column prop="cleanLevelName" label="类型" align="center"></el-table-column>
+                <el-table-column prop="price" label="价格" align="center"></el-table-column>
+                <el-table-column prop="planTime" label="时间段"></el-table-column>
+                <el-table-column prop="stateName" label="状态"></el-table-column>
+                <el-table-column prop="emplId" label="员工ID" disabled="true"></el-table-column>
+                <el-table-column prop="emplName" label="员工名称"></el-table-column>
+                <el-table-column prop="tag" label="房态"></el-table-column>
+                <el-table-column prop="month" label="月份"></el-table-column>
                 <!--<el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -164,7 +159,7 @@
                 this.editVisible = true;
             },
             getData() {
-                sys.getRoomList(this.query).then(res => {
+                sys.getBjDetails(this.query).then(res => {
                     console.log(res);
                     if (res.code != 0) {
                         this.$message.error('当前使用人数较多,请稍后再试!');
@@ -175,7 +170,9 @@
                 });
             },
             doExport() {
-                window.open('http://112.124.56.76:9090/roomAudit/downLoad?' +
+                window.open(
+                    'http://112.124.56.76:9090/details/bjDetailDownLoad?' +
+                    // 'http://localhost:9090/details/bjDetailDownLoad?' +
                     'roomName=' + this.query.roomName +
                     '&month=' + this.query.month +
                     '&tgfd=' + this.query.tgfd
