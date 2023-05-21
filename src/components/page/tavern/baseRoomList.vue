@@ -3,7 +3,7 @@
        <!-- <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 房屋清算列表
+                    <i class="el-icon-lx-cascades"></i> 房屋基础信息列表
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>-->
@@ -13,14 +13,14 @@
                     <el-form-item label="房间名称">
                         <el-input v-model="query.roomName" placeholder="姓名"></el-input>
                     </el-form-item>
-                    <el-form-item label="月份">
+                    <!--<el-form-item label="月份">
                         <el-select v-model="query.month" placeholder="月份" class="handle-select mr10" clearable>
                             <el-option key="1" label="202302" value="202302"></el-option>
                             <el-option key="2" label="202303" value="202303"></el-option>
                             <el-option key="3" label="202304" value="202304"></el-option>
                             <el-option key="4" label="202305" value="202305"></el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item>-->
                     <el-form-item label="托管房东">
                         <el-select v-model="query.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
                                    filterable :remote-method="remoteMethod">
@@ -29,10 +29,8 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <!--
-                                                <el-button type="primary" @click="addUserBtn">新增</el-button>
-                        -->
                         <el-button type="primary" @click="onSubmit">查询</el-button>
+                        <el-button type="primary" @click="addRoomBtn">新增</el-button>
                         <el-button type="primary" @click="onExport">导出</el-button>
                     </el-form-item>
                 </el-form>
@@ -46,26 +44,48 @@
                     @selection-change="handleSelectionChange"
             >
                 <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
+                <el-table-column prop="id" label="id" align="center" style="display: none"></el-table-column>
                 <el-table-column prop="proName" label="省份" align="center"></el-table-column>
                 <el-table-column prop="cityName" label="地市" align="center"></el-table-column>
                 <el-table-column prop="countyName" label="区县" align="center"></el-table-column>
                 <el-table-column prop="area" label="区域" align="center"></el-table-column>
                 <el-table-column prop="roomName" label="房屋名称" width="200" align="center"></el-table-column>
                 <el-table-column prop="roomType" label="房型" align="center"></el-table-column>
-                <el-table-column prop="rzDays" label="入住天数" align="center"></el-table-column>
-                <el-table-column prop="priceClean" label="平台打款"></el-table-column>
-                <el-table-column prop="actualZj" label="房租"></el-table-column>
-                <el-table-column prop="khFee" label="客耗品"></el-table-column>
-                <el-table-column prop="bjFee" label="保洁"></el-table-column>
-                <el-table-column prop="bcExpend" label="布草开支"></el-table-column>
-                <el-table-column prop="dailyExpend" label="日常开支"></el-table-column>
-                <el-table-column prop="sumExpend" label="开支总计"></el-table-column>
-                <el-table-column prop="commission" label="佣金"></el-table-column>
-                <el-table-column prop="netProfits" label="净利润"></el-table-column>
-                <el-table-column prop="jinFee" label="金总收款金额"></el-table-column>
-                <el-table-column prop="settlementAmount" label="结算金额"></el-table-column>
-                <el-table-column prop="remark" label="备注" width="200" align="center"></el-table-column>
-                <!--<el-table-column label="操作" width="180" align="center">
+                <el-table-column prop="typeLevel" label="床数" align="center"></el-table-column>
+                <el-table-column prop="tgfd" label="托管房东"></el-table-column>
+                <el-table-column prop="interactWay" label="合作方式" width="100"></el-table-column>
+                <el-table-column prop="contractStartDate" label="合同开始日期" width="130"></el-table-column>
+                <el-table-column prop="contractEndDate" label="合同结束日期" width="130"></el-table-column>
+                <el-table-column prop="payWay" label="付款方式"></el-table-column>
+                <el-table-column prop="fkyf" label="付款月份"></el-table-column>
+                <el-table-column prop="zfyq" label="支付时间要求" width="110"></el-table-column>
+                <el-table-column prop="jzrq" label="交租日期"></el-table-column>
+                <el-table-column prop="htzj" label="合同租金"></el-table-column>
+                <el-table-column prop="actualZj" label="实际租金"></el-table-column>
+                <el-table-column prop="contractDeposit" label="合同押金"></el-table-column>
+                <el-table-column prop="wyj" label="违约金" align="center"></el-table-column>
+                <el-table-column prop="autoXz" label="是否自动续租" align="center" width="110"></el-table-column>
+                <el-table-column prop="jzStartDate" label="最近交租开始时间" align="center" width="150"></el-table-column>
+                <el-table-column prop="jzEndDate" label="最近交租结束时间" align="center" width="150"></el-table-column>
+                <el-table-column prop="baiduUrl" label="百度网盘链接" align="center" :show-overflow-tooltip="true" width="110"></el-table-column>
+                <el-table-column prop="baiduRemark" label="百度网盘备注" align="center" width="110"></el-table-column>
+                <el-table-column prop="fzLiablePerson" label="房租负责人" align="center" width="100"></el-table-column>
+                <el-table-column prop="lookLiablePerson" label="看房负责人" align="center" width="100"></el-table-column>
+                <el-table-column prop="zfLiablePerson" label="租房负责人" align="center" width="100"></el-table-column>
+                <el-table-column prop="remarkOne" label="备注1" align="center"></el-table-column>
+                <el-table-column prop="remarkThree" label="备注3" align="center"></el-table-column>
+                <el-table-column prop="address" label="详细地址" align="center"></el-table-column>
+                <el-table-column prop="location" label="经纬度" align="center"></el-table-column>
+                <el-table-column prop="electricNumber" label="电号" align="center"></el-table-column>
+                <el-table-column prop="electricFee" label="缴费金额" align="center"></el-table-column>
+                <el-table-column prop="waterNumber" label="水号" align="center"></el-table-column>
+                <el-table-column prop="waterFee" label="缴费金额" align="center"></el-table-column>
+                <el-table-column prop="airNumber" label="气号" align="center"></el-table-column>
+                <el-table-column prop="airFee" label="缴费金额" align="center"></el-table-column>
+                <el-table-column prop="bedType" label="床型" align="center"></el-table-column>
+                <el-table-column prop="sofaBed" label="沙发床" align="center"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+                <el-table-column label="操作" width="180" align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button
                                 type="text"
@@ -81,7 +101,7 @@
                         >删除
                         </el-button>
                     </template>
-                </el-table-column>-->
+                </el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -97,15 +117,34 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="70px">
-                <el-form-item label="用户姓名">
-                    <el-input v-model="form.userName"></el-input>
+            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
+                <el-form-item label="房屋名称">
+                    <el-input v-model="form.roomName"></el-input>
                 </el-form-item>
-                <el-form-item label="手机号">
-                    <el-input v-model="form.mobile"></el-input>
+                <el-form-item label="房型">
+                    <el-input v-model="form.roomType"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱">
-                    <el-input v-model="form.email"></el-input>
+                <el-form-item label="床数">
+                    <el-input v-model="form.typeLevel"></el-input>
+                </el-form-item>
+                <el-form-item label="托管房东">
+                    <el-select v-model="form.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
+                               filterable :remote-method="remoteMethod">
+                        <el-option :label="item.name" :value="item.name" v-for="item in seleData"
+                                   :key="item.name"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="合作方式">
+                    <el-input v-model="form.interactWay"></el-input>
+                </el-form-item>
+                <el-form-item label="房租负责人">
+                    <el-input v-model="form.fzLiablePerson"></el-input>
+                </el-form-item>
+                <el-form-item label="看房负责人">
+                    <el-input v-model="form.lookLiablePerson"></el-input>
+                </el-form-item>
+                <el-form-item label="租房负责人">
+                    <el-input v-model="form.zfLiablePerson"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -158,13 +197,13 @@
             onExport() {
                 this.doExport();
             },
-            addUserBtn() {
+            addRoomBtn() {
                 this.updateFlag = "add";
                 this.form = {};
                 this.editVisible = true;
             },
             getData() {
-                sys.getRoomList(this.query).then(res => {
+                sys.getBaseRooms(this.query).then(res => {
                     console.log(res);
                     if (res.code != 0) {
                         this.$message.error('当前使用人数较多,请稍后再试!');
@@ -175,7 +214,9 @@
                 });
             },
             doExport() {
-                window.open('http://112.124.56.76:9090/roomAudit/downLoad?' +
+                window.open(
+                    // 'http://127.0.0.1:9090/room/downLoad?' +
+                    'http://112.124.56.76:9090/room/downLoad?' +
                     'roomName=' + this.query.roomName +
                     '&month=' + this.query.month +
                     '&tgfd=' + this.query.tgfd
@@ -192,7 +233,7 @@
                 this.$confirm('确定要删除吗？', '提示', {
                     type: 'warning'
                 }).then(() => {
-                    sys.delUsers({'userId': row.userId}).then(res => {
+                    sys.delBaseRoom({'id': row.id}).then(res => {
                         if (res.status != "0") {
                             this.$message.error('网络繁忙:' + res.msg);
                             return;
@@ -229,11 +270,11 @@
             // 保存编辑
             saveEdit() {
                 this.editVisible = false;
-                this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                this.$message.success(`修改成功`);
                 this.$set(this.tableData, this.idx, this.form);
                 this.$set(this.form, "updateFlag", this.updateFlag);
                 this.updateFlag = "";
-                sys.editUsers(this.form).then(res => {
+                sys.editBaseRoom(this.form).then(res => {
                     if (res.status != "0") {
                         this.$message.error('网络繁忙:' + res.msg);
                         return;

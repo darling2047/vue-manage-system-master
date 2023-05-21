@@ -8,7 +8,7 @@ export default new Router({
         {
             path: '/',
             //redirect: '/dashboard'
-            redirect: '/roomList'
+            redirect: '/roomAudit'
         },
         {
             path: '/',
@@ -113,13 +113,17 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/sys/userInfo.vue'),
                     meta: { title: '用户列表' }
                 },{
-                    path: '/roomList',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/roomList.vue'),
+                    path: '/roomAudit',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/roomAudit.vue'),
                     meta: { title: '房屋清算列表' }
                 },{
                     path: '/baseDetails',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/baseDetails.vue'),
                     meta: { title: '房屋清算清单' }
+                },{
+                    path: '/baseRooms',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/baseRoomList.vue'),
+                    meta: { title: '房屋基础信息列表' }
                 },
                 {
                     path: '/dynamicForm',

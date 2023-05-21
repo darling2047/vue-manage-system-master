@@ -1,10 +1,10 @@
 import request from '../utils/request';
 
 // 民宿项目生产地址
-// let baseUrl = 'http://112.124.56.76:9090';
+let baseUrl = 'http://112.124.56.76:9090';
 // let baseUrl = 'http://127.0.0.1:9090';
 // 设备管理项目生产地址
-let baseUrl = 'http://121.199.58.24:9090';
+// let baseUrl = 'http://121.199.58.24:9090';
 // 登录
 export const sys = {
     doLogin: params => {
@@ -28,7 +28,7 @@ export const sys = {
             params: params
         });
     },
-    getRoomList: params => {
+    getRoomAudit: params => {
         return request({
             url: baseUrl + '/roomAudit/getList',
             method: 'get',
@@ -56,16 +56,23 @@ export const sys = {
             params: params
         });
     },
-    delUsers: params => {
+    getBaseRooms: params => {
         return request({
-            url: baseUrl + '/user/delUserInfoById',
+            url: baseUrl + '/room/getList',
             method: 'get',
             params: params
         });
     },
-    editUsers: params => {
+    delBaseRoom: params => {
         return request({
-            url: baseUrl + '/user/editUserInfo',
+            url: baseUrl + '/room/delRoomById',
+            method: 'get',
+            params: params
+        });
+    },
+    editBaseRoom: params => {
+        return request({
+            url: baseUrl + '/room/edit',
             method: 'post',
             params: params
         });
