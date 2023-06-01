@@ -10,6 +10,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "bignumber.js": "^9.1.1",
+    "crypto-js": "^3.1.9-1",
     "element-ui": "^2.11.0",
     "mavon-editor": "^2.6.17",
     "vue": "^2.6.10",
@@ -19,7 +21,8 @@
     "vue-router": "^3.0.3",
     "vue-schart": "^2.0.0",
     "vuedraggable": "^2.17.0",
-    "crypto-js": "^3.1.9-1"
+    "vxe-table": "^3.6.13",
+    "xe-utils": "^3.5.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",

@@ -3,7 +3,7 @@
        <!-- <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 房屋基础信息列表
+                    <i class="el-icon-lx-cascades"></i> 房屋清算列表
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>-->
@@ -13,14 +13,14 @@
                     <el-form-item label="房间名称">
                         <el-input v-model="query.roomName" placeholder="姓名"></el-input>
                     </el-form-item>
-                    <!--<el-form-item label="月份">
+                    <el-form-item label="月份">
                         <el-select v-model="query.month" placeholder="月份" class="handle-select mr10" clearable>
                             <el-option key="1" label="202302" value="202302"></el-option>
                             <el-option key="2" label="202303" value="202303"></el-option>
                             <el-option key="3" label="202304" value="202304"></el-option>
                             <el-option key="4" label="202305" value="202305"></el-option>
                         </el-select>
-                    </el-form-item>-->
+                    </el-form-item>
                     <el-form-item label="托管房东">
                         <el-select v-model="query.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
                                    filterable :remote-method="remoteMethod">
@@ -29,81 +29,70 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
+                        <!--
+                                                <el-button type="primary" @click="addUserBtn">新增</el-button>
+                        -->
                         <el-button type="primary" @click="onSubmit">查询</el-button>
-                        <el-button type="primary" @click="addRoomBtn">新增</el-button>
                         <el-button type="primary" @click="onExport">导出</el-button>
                     </el-form-item>
                 </el-form>
             </div>
-            <el-table
+            <vxe-table
                     :data="tableData"
+                    :tooltip-config="{enterable: true}"
+                    @cell-mouseleave="mouseLeave($event)"
                     border
                     class="table"
                     ref="multipleTable"
                     header-cell-class-name="table-header"
                     @selection-change="handleSelectionChange"
-                    height="900"
+                    show-summary
+                    :summary-method="getSummaries"
+                    :edit-config="{trigger: 'click', mode: 'cell', showStatus: true}"
             >
                 <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                <el-table-column prop="id" label="id" align="center" style="display: none"></el-table-column>
-                <el-table-column prop="proName" label="省份" align="center"></el-table-column>
-                <el-table-column prop="cityName" label="地市" align="center"></el-table-column>
-                <el-table-column prop="countyName" label="区县" align="center"></el-table-column>
-                <el-table-column prop="area" label="区域" align="center"></el-table-column>
-                <el-table-column prop="roomName" label="房屋名称" width="200" align="center"></el-table-column>
-                <el-table-column prop="roomType" label="房型" align="center"></el-table-column>
-                <el-table-column prop="typeLevel" label="床数" align="center"></el-table-column>
-                <el-table-column prop="tgfd" label="托管房东"></el-table-column>
-                <el-table-column prop="interactWay" label="合作方式" width="100"></el-table-column>
-                <el-table-column prop="contractStartDate" label="合同开始日期" width="130"></el-table-column>
-                <el-table-column prop="contractEndDate" label="合同结束日期" width="130"></el-table-column>
-                <el-table-column prop="payWay" label="付款方式"></el-table-column>
-                <el-table-column prop="fkyf" label="付款月份"></el-table-column>
-                <el-table-column prop="zfyq" label="支付时间要求" width="110"></el-table-column>
-                <el-table-column prop="jzrq" label="交租日期"></el-table-column>
-                <el-table-column prop="htzj" label="合同租金"></el-table-column>
-                <el-table-column prop="actualZj" label="实际租金"></el-table-column>
-                <el-table-column prop="contractDeposit" label="合同押金"></el-table-column>
-                <el-table-column prop="wyj" label="违约金" align="center" width="310"></el-table-column>
-                <el-table-column prop="autoXz" label="是否自动续租" align="center" width="110"></el-table-column>
-                <el-table-column prop="jzStartDate" label="最近交租开始时间" align="center" width="150"></el-table-column>
-                <el-table-column prop="jzEndDate" label="最近交租结束时间" align="center" width="150"></el-table-column>
-                <el-table-column prop="baiduUrl" label="百度网盘链接" align="center" :show-overflow-tooltip="true" width="210"></el-table-column>
-                <el-table-column prop="baiduRemark" label="百度网盘备注" align="center" width="110"></el-table-column>
-                <el-table-column prop="fzLiablePerson" label="房租负责人" align="center" width="100"></el-table-column>
-                <el-table-column prop="lookLiablePerson" label="看房负责人" align="center" width="100"></el-table-column>
-                <el-table-column prop="zfLiablePerson" label="租房负责人" align="center" width="100"></el-table-column>
-                <el-table-column prop="remarkOne" label="备注1" align="center":show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="remarkThree" label="备注3" align="center":show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="address" label="详细地址" align="center":show-overflow-tooltip="true"></el-table-column>
-                <el-table-column prop="location" label="经纬度" align="center" width="160"></el-table-column>
-                <el-table-column prop="electricNumber" label="电号" align="center"></el-table-column>
-                <el-table-column prop="electricFee" label="缴费金额" align="center"></el-table-column>
-                <el-table-column prop="waterNumber" label="水号" align="center"></el-table-column>
-                <el-table-column prop="waterFee" label="缴费金额" align="center"></el-table-column>
-                <el-table-column prop="airNumber" label="气号" align="center"></el-table-column>
-                <el-table-column prop="airFee" label="缴费金额" align="center"></el-table-column>
-                <el-table-column prop="bedType" label="床型" align="center" width="220"></el-table-column>
-                <el-table-column prop="sofaBed" label="沙发床" align="center"></el-table-column>
-                <el-table-column prop="createTime" label="创建时间" align="center" width="160"></el-table-column>
-                <el-table-column label="操作" width="180" align="center" fixed="right">
+                <vxe-table-column field="id" title="编号" align="center"></vxe-table-column>
+                <vxe-table-column field="month" title="月份" align="center"width="100"></vxe-table-column>
+                <vxe-table-column field="opTime" title="数据账期" align="center" width="120"></vxe-table-column>
+                <vxe-table-column field="proName" title="省份" align="center"width="100"></vxe-table-column>
+                <vxe-table-column field="cityName" title="地市" align="center"width="100"></vxe-table-column>
+                <vxe-table-column field="countyName" title="区县" align="center" width="100"></vxe-table-column>
+                <vxe-table-column field="area" title="区域" align="center" width="120"></vxe-table-column>
+                <vxe-table-column field="roomName" title="房屋名称" width="200" align="center"></vxe-table-column>
+                <vxe-table-column field="roomType" title="房型" align="center"width="90"></vxe-table-column>
+                <vxe-table-column field="rzDays" title="入住天数" align="center"width="90"></vxe-table-column>
+                <vxe-table-column field="priceClean" title="平台打款"width="90"></vxe-table-column>
+                <vxe-table-column field="actualZj" title="房租"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="khFee" title="客耗品"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="bjFee" title="保洁"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="bcExpend" title="布草开支"width="100" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="dailyExpend" title="日常开支"width="100" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="sumExpend" title="开支总计"width="100" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="commission" title="佣金"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="netProfits" title="净利润"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <!--<vxe-table-column field="jinFee" title="金总收款金额"width="90"></vxe-table-column>-->
+                <vxe-table-column field="settlementAmount" title="结算金额"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="remark" title="备注" width="200" align="center"></vxe-table-column>
+                <vxe-table-column field="updatorName" title="修改人" align="center" width="120"></vxe-table-column>
+                <vxe-table-column field="updateTime" title="修改时间" align="center" width="160"></vxe-table-column>
+                <vxe-table-column title="操作" width="180" align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button
                                 type="text"
                                 icon="el-icon-edit"
                                 @click="handleEdit(scope.$index, scope.row)"
-                        >编辑
+                        >刷新
                         </el-button>
                         <el-button
+                                v-if="saveShowFlag"
                                 type="text"
-                                icon="el-icon-delete"
-                                class="red"
-                                @click="handleDelete(scope.$index, scope.row)"
-                        >删除
+                                icon="el-icon-save"
+                                @click="handleUpdate(scope.$index, scope.row)"
+                        >保存
                         </el-button>
                     </template>
-                </el-table-column>
-            </el-table>
+                </vxe-table-column>
+            </vxe-table>
             <div class="pagination">
                 <el-pagination
                         background
@@ -118,34 +107,15 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
-                <el-form-item label="房屋名称">
-                    <el-input v-model="form.roomName"></el-input>
+            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="70px">
+                <el-form-item label="用户姓名">
+                    <el-input v-model="form.userName"></el-input>
                 </el-form-item>
-                <el-form-item label="房型">
-                    <el-input v-model="form.roomType"></el-input>
+                <el-form-item label="手机号">
+                    <el-input v-model="form.mobile"></el-input>
                 </el-form-item>
-                <el-form-item label="床数">
-                    <el-input v-model="form.typeLevel"></el-input>
-                </el-form-item>
-                <el-form-item label="托管房东">
-                    <el-select v-model="form.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
-                               filterable :remote-method="remoteMethod">
-                        <el-option :label="item.name" :value="item.name" v-for="item in seleData"
-                                   :key="item.name"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="合作方式">
-                    <el-input v-model="form.interactWay"></el-input>
-                </el-form-item>
-                <el-form-item label="房租负责人">
-                    <el-input v-model="form.fzLiablePerson"></el-input>
-                </el-form-item>
-                <el-form-item label="看房负责人">
-                    <el-input v-model="form.lookLiablePerson"></el-input>
-                </el-form-item>
-                <el-form-item label="租房负责人">
-                    <el-input v-model="form.zfLiablePerson"></el-input>
+                <el-form-item label="邮箱">
+                    <el-input v-model="form.email"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -158,7 +128,8 @@
 
 <script>
     import {sys} from "../../../api/api";
-
+    import { BigNumber } from 'bignumber.js';
+    const saveShowFlag =false;
     export default {
         name: 'basetable',
         data() {
@@ -198,13 +169,13 @@
             onExport() {
                 this.doExport();
             },
-            addRoomBtn() {
+            addUserBtn() {
                 this.updateFlag = "add";
                 this.form = {};
                 this.editVisible = true;
             },
             getData() {
-                sys.getBaseRooms(this.query).then(res => {
+                sys.getAuditResult(this.query).then(res => {
                     console.log(res);
                     if (res.code != 0) {
                         this.$message.error('当前使用人数较多,请稍后再试!');
@@ -215,9 +186,8 @@
                 });
             },
             doExport() {
-                window.open(
-                    // 'http://127.0.0.1:9090/room/downLoad?' +
-                    'http://112.124.56.76:9090/room/downLoad?' +
+                // window.open('http://112.124.56.76:9090/auditResult/downLoad?' +
+                window.open('http://localhost:9090/auditResult/downLoad?' +
                     'roomName=' + this.query.roomName +
                     '&month=' + this.query.month +
                     '&tgfd=' + this.query.tgfd
@@ -229,18 +199,18 @@
                 this.getData();
             },
             // 删除操作
-            handleDelete(index, row) {
+            handleUpdate(index, row) {
                 // 二次确认删除
-                this.$confirm('确定要删除吗？', '提示', {
+                this.$confirm('请确认是否点击刷新按钮，点击确定继续操作？', '提示', {
                     type: 'warning'
                 }).then(() => {
-                    sys.delBaseRoom({'id': row.id}).then(res => {
+                    sys.updateResult(this.form).then(res => {
                         if (res.status != "0") {
                             this.$message.error('网络繁忙:' + res.msg);
                             return;
+                        }else {
+                            this.$message.success('修改成功!');
                         }
-                        this.$message.success('删除成功');
-                        // this.tableData.splice(index, 1);
                         this.getData();
                     });
                 })
@@ -264,18 +234,45 @@
             // 编辑操作
             handleEdit(index, row) {
                 this.updateFlag = "edit"
+                debugger
+                let zj = BigNumber(row.actualZj.replace(",",""));
+                if (!zj.c) {
+                    zj = BigNumber(0);
+                }
+                let kh = BigNumber(row.khFee);
+                if (!kh.c) {
+                    kh = BigNumber(0);
+                }
+                let bj = BigNumber(row.bjFee);
+                if (!bj.c) {
+                    bj = BigNumber(0);
+                }
+                let bc = BigNumber(row.bcExpend);
+                if (!bc.c) {
+                    bc = BigNumber(0);
+                }
+                let daily = BigNumber(row.dailyExpend);
+                if (!daily.c) {
+                    daily = BigNumber(0);
+                }
+                let sum = zj.plus(kh).plus(bj).plus(bc).plus(daily);
+                row.sumExpend=sum.toNumber();
                 this.idx = index;
                 this.form = row;
-                this.editVisible = true;
+                // this.editVisible = true;
+                this.$set(this.tableData, this.idx, this.form);
+                this.$set(this.form, "updateFlag", this.updateFlag);
+                this.updateFlag = "";
+                this.saveShowFlag =true;
             },
             // 保存编辑
             saveEdit() {
                 this.editVisible = false;
-                this.$message.success(`修改成功`);
+                this.$message.success(`修改第 ${this.idx + 1} 行成功`);
                 this.$set(this.tableData, this.idx, this.form);
                 this.$set(this.form, "updateFlag", this.updateFlag);
                 this.updateFlag = "";
-                sys.editBaseRoom(this.form).then(res => {
+                sys.editUsers(this.form).then(res => {
                     if (res.status != "0") {
                         this.$message.error('网络繁忙:' + res.msg);
                         return;
@@ -295,6 +292,44 @@
                     console.log(res);
                     this.seleData = res;
                 });
+            },
+            getSummaries(param) {
+                const { columns, data } = param;
+                const sums = [];
+                columns.forEach((column, index) => {
+                    if (index === 0) {
+                        sums[index] = '总价';
+                        return;
+                    }
+                    let label = column.label
+                    if (label == '月份' || label == '数据账期') {
+                        return;
+                    }
+                    if (label == '布草开支') {
+                        debugger
+                    }
+                    const values = data.map(item => Number(item[column.property]));
+                    if (!values.every(value => isNaN(value))) {
+                        sums[index] = values.reduce((prev, curr) => {
+                            const value = Number(curr);
+                            if (!isNaN(value)) {
+                                return prev + curr;
+                            } else {
+                                return prev;
+                            }
+                        }, 0);
+                        sums[index];// += ' 元';
+                    } else {
+                        sums[index] = '';
+                    }
+                });
+
+                return sums;
+            },
+            mouseLeave(row) {
+                // let a = row.cell;
+                // debugger;
+                // alert(a)
             }
         }
     };

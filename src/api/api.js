@@ -1,8 +1,8 @@
 import request from '../utils/request';
 
 // 民宿项目生产地址
-let baseUrl = 'http://112.124.56.76:9090';
-// let baseUrl = 'http://127.0.0.1:9090';
+// let baseUrl = 'http://112.124.56.76:9090';
+let baseUrl = 'http://127.0.0.1:9090';
 // 设备管理项目生产地址
 // let baseUrl = 'http://121.199.58.24:9090';
 // 登录
@@ -31,6 +31,13 @@ export const sys = {
     getRoomAudit: params => {
         return request({
             url: baseUrl + '/roomAudit/getList',
+            method: 'get',
+            params: params
+        });
+    },
+    getAuditResult: params => {
+        return request({
+            url: baseUrl + '/auditResult/getList',
             method: 'get',
             params: params
         });
@@ -73,6 +80,13 @@ export const sys = {
     editBaseRoom: params => {
         return request({
             url: baseUrl + '/room/edit',
+            method: 'post',
+            params: params
+        });
+    },
+    updateResult: params => {
+        return request({
+            url: baseUrl + '/auditResult/update',
             method: 'post',
             params: params
         });

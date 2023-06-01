@@ -124,10 +124,19 @@ export default new Router({
                     path: '/baseRooms',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/baseRoomList.vue'),
                     meta: { title: '房屋基础信息列表' }
+                },{
+                    path: '/auditResult',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/auditResult.vue'),
+                    meta: { title: '房屋清算列表(可编辑)' }
                 },
                 {
                     path: '/dynamicForm',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/dynamicForm/container.vue'),
+                    meta: { title: '动态表单配置' }
+                },
+                {
+                    path: '/test',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/test.vue'),
                     meta: { title: '动态表单配置' }
                 }
             ]
