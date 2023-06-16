@@ -55,7 +55,12 @@
                 <el-table-column prop="creator" label="发起人" align="center"></el-table-column>
                 <el-table-column prop="itemArea" label="区域"></el-table-column>
                 <el-table-column prop="bxType" label="报销品类"></el-table-column>
-                <el-table-column prop="amount" label="报销金额" disabled="true"></el-table-column>
+                <el-table-column label="报销金额">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.amount==null">{{scope.row.commission}}</span>
+                        <span v-else>{{scope.row.amount}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="remark" label="费用说明"></el-table-column>
                 <!--<el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">

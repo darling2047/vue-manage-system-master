@@ -133,11 +133,6 @@ export default new Router({
                     path: '/dynamicForm',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/dynamicForm/container.vue'),
                     meta: { title: '动态表单配置' }
-                },
-                {
-                    path: '/test',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/test.vue'),
-                    meta: { title: '动态表单配置' }
                 }
             ]
         },

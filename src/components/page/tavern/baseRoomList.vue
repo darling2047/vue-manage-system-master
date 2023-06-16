@@ -119,11 +119,26 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
+                <el-form-item label="省份" >
+                    <el-input v-model="form.proName"></el-input>
+                </el-form-item>
+                <el-form-item label="地市" >
+                    <el-input v-model="form.cityName"></el-input>
+                </el-form-item>
+                <el-form-item label="区县" >
+                    <el-input v-model="form.countyName"></el-input>
+                </el-form-item>
+                <el-form-item label="区域" >
+                    <el-input v-model="form.area"></el-input>
+                </el-form-item>
                 <el-form-item label="房屋名称">
                     <el-input v-model="form.roomName"></el-input>
                 </el-form-item>
                 <el-form-item label="房型">
                     <el-input v-model="form.roomType"></el-input>
+                </el-form-item>
+                <el-form-item label="房租">
+                    <el-input v-model="form.actualZj"></el-input>
                 </el-form-item>
                 <el-form-item label="床数">
                     <el-input v-model="form.typeLevel"></el-input>

@@ -1,12 +1,12 @@
 <template>
     <div>
-       <!-- <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 房屋清算列表
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>-->
+        <!-- <div class="crumbs">
+             <el-breadcrumb separator="/">
+                 <el-breadcrumb-item>
+                     <i class="el-icon-lx-cascades"></i> 房屋清算列表
+                 </el-breadcrumb-item>
+             </el-breadcrumb>
+         </div>-->
         <div class="container">
             <div class="handle-box">
                 <el-form :inline="true" :model="query" class="demo-form-inline">
@@ -34,6 +34,7 @@
                         -->
                         <el-button type="primary" @click="onSubmit">查询</el-button>
                         <el-button type="primary" @click="onExport">导出</el-button>
+                        <el-button type="primary" size="small" @click="openBatchDialog()">导入</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -51,27 +52,36 @@
                     :edit-config="{trigger: 'click', mode: 'cell', showStatus: true}"
             >
                 <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                <vxe-table-column field="id" title="编号" align="center"></vxe-table-column>
-                <vxe-table-column field="month" title="月份" align="center"width="100"></vxe-table-column>
+                <vxe-table-column field="id" title="编号" align="center"width="55" ></vxe-table-column>
+                <vxe-table-column field="month" title="月份" align="center" width="100"></vxe-table-column>
                 <vxe-table-column field="opTime" title="数据账期" align="center" width="120"></vxe-table-column>
-                <vxe-table-column field="proName" title="省份" align="center"width="100"></vxe-table-column>
-                <vxe-table-column field="cityName" title="地市" align="center"width="100"></vxe-table-column>
+                <vxe-table-column field="proName" title="省份" align="center" width="100"></vxe-table-column>
+                <vxe-table-column field="cityName" title="地市" align="center" width="100"></vxe-table-column>
                 <vxe-table-column field="countyName" title="区县" align="center" width="100"></vxe-table-column>
                 <vxe-table-column field="area" title="区域" align="center" width="120"></vxe-table-column>
                 <vxe-table-column field="roomName" title="房屋名称" width="200" align="center"></vxe-table-column>
-                <vxe-table-column field="roomType" title="房型" align="center"width="90"></vxe-table-column>
-                <vxe-table-column field="rzDays" title="入住天数" align="center"width="90"></vxe-table-column>
-                <vxe-table-column field="priceClean" title="平台打款"width="90"></vxe-table-column>
-                <vxe-table-column field="actualZj" title="房租"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="khFee" title="客耗品"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="bjFee" title="保洁"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="bcExpend" title="布草开支"width="100" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="dailyExpend" title="日常开支"width="100" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="sumExpend" title="开支总计"width="100" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="commission" title="佣金"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
-                <vxe-table-column field="netProfits" title="净利润"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="roomType" title="房型" align="center" width="90"></vxe-table-column>
+                <vxe-table-column field="rzDays" title="入住天数" align="center" width="90"></vxe-table-column>
+                <vxe-table-column field="priceClean" title="平台打款" width="90"></vxe-table-column>
+                <vxe-table-column field="actualZj" title="房租" width="90"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="khFee" title="客耗品" width="90"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="bjFee" title="保洁" width="90"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="bcExpend" title="布草开支" width="100"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="dailyExpend" title="日常开支" width="100"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="sumExpend" title="开支总计" width="100"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="commission" title="佣金" width="90"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="netProfits" title="净利润" width="90"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
                 <!--<vxe-table-column field="jinFee" title="金总收款金额"width="90"></vxe-table-column>-->
-                <vxe-table-column field="settlementAmount" title="结算金额"width="90" :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                <vxe-table-column field="settlementAmount" title="结算金额" width="90"
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
                 <vxe-table-column field="remark" title="备注" width="200" align="center"></vxe-table-column>
                 <vxe-table-column field="updatorName" title="修改人" align="center" width="120"></vxe-table-column>
                 <vxe-table-column field="updateTime" title="修改时间" align="center" width="160"></vxe-table-column>
@@ -84,7 +94,6 @@
                         >刷新
                         </el-button>
                         <el-button
-                                v-if="saveShowFlag"
                                 type="text"
                                 icon="el-icon-save"
                                 @click="handleUpdate(scope.$index, scope.row)"
@@ -123,13 +132,42 @@
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
         </el-dialog>
+
+        <el-dialog title="批量导入" :visible.sync="batchVisible" center :close-on-click-modal="false">
+            <div class="batchCon">
+
+                <div class="batchCon-upload">
+                    <el-upload
+                            ref="uploadRef"
+                            class="uploadButton"
+                            :action="pushAction"
+                            list-type="text"
+                            size="small"
+                            drag
+                            :with-credentials='true'
+                            :file-list="fileList"
+                            :multiple='false'
+                            :auto-upload='false'
+                            :on-success="(response, file, fileList) => handleAvatarSuccess('head', response, file, fileList)"
+                            :show-file-list="true">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传excel文件，且不超过10M</div>
+                    </el-upload>
+                </div>
+            </div>
+            <div class="dialog-footer" slot="footer" style="textAlign:center">
+                <el-button type='primary' @click='uploadSubmit'>上传</el-button>
+                <el-button type="primary" @click="downLoadModel">模板下载</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import {sys} from "../../../api/api";
-    import { BigNumber } from 'bignumber.js';
-    const saveShowFlag =false;
+    import {BigNumber} from 'bignumber.js';
+
     export default {
         name: 'basetable',
         data() {
@@ -148,6 +186,7 @@
                 multipleSelection: [],
                 delList: [],
                 editVisible: false,
+                batchVisible: false,
                 pageTotal: 0,
                 form: {},
                 idx: -1,
@@ -186,8 +225,8 @@
                 });
             },
             doExport() {
-                // window.open('http://112.124.56.76:9090/auditResult/downLoad?' +
-                window.open('http://localhost:9090/auditResult/downLoad?' +
+                window.open('http://112.124.56.76:9090/auditResult/downLoad?' +
+                // window.open('http://localhost:9090/auditResult/downLoad?' +
                     'roomName=' + this.query.roomName +
                     '&month=' + this.query.month +
                     '&tgfd=' + this.query.tgfd
@@ -208,7 +247,7 @@
                         if (res.status != "0") {
                             this.$message.error('网络繁忙:' + res.msg);
                             return;
-                        }else {
+                        } else {
                             this.$message.success('修改成功!');
                         }
                         this.getData();
@@ -235,7 +274,7 @@
             handleEdit(index, row) {
                 this.updateFlag = "edit"
                 debugger
-                let zj = BigNumber(row.actualZj.replace(",",""));
+                let zj = BigNumber(row.actualZj.replace(",", ""));
                 if (!zj.c) {
                     zj = BigNumber(0);
                 }
@@ -256,14 +295,14 @@
                     daily = BigNumber(0);
                 }
                 let sum = zj.plus(kh).plus(bj).plus(bc).plus(daily);
-                row.sumExpend=sum.toNumber();
+                row.sumExpend = sum.toNumber();
                 this.idx = index;
                 this.form = row;
                 // this.editVisible = true;
                 this.$set(this.tableData, this.idx, this.form);
                 this.$set(this.form, "updateFlag", this.updateFlag);
                 this.updateFlag = "";
-                this.saveShowFlag =true;
+                debugger;
             },
             // 保存编辑
             saveEdit() {
@@ -294,7 +333,7 @@
                 });
             },
             getSummaries(param) {
-                const { columns, data } = param;
+                const {columns, data} = param;
                 const sums = [];
                 columns.forEach((column, index) => {
                     if (index === 0) {
@@ -330,6 +369,28 @@
                 // let a = row.cell;
                 // debugger;
                 // alert(a)
+            },
+            openBatchDialog(data) {
+                this.batchType = data;
+                this.batchVisible = true;
+                this.fileList = [];
+                this.pushAction = 'http://112.124.56.76:9090/auditResult/resultImport';
+                // this.pushAction = 'http://localhost:9090/auditResult/resultImport';
+            },
+            downLoadModel() {
+                window.open('http://112.124.56.76:9090/auditResult/templateExport?')
+                // window.open('http://localhost:9090/auditResult/templateExport?')
+            },
+            handleAvatarSuccess(field, response, file, fileList) {
+                if (response.status === 0) {
+                    this.$message.success('批量导入成功');
+                    this.getData();
+                }
+                // this.$forceUpdate();
+            },
+            uploadSubmit() {
+                this.$refs.uploadRef.submit();
+                this.batchVisible = false;
             }
         }
     };
@@ -368,4 +429,23 @@
         width: 40px;
         height: 40px;
     }
+
+
+    .batchCon .batchCon-model {
+        color: #409eff;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+
+    .batchCon .batchCon-upload /deep/.el-upload {
+        width: 100%;
+    }
+
+    .batchCon .batchCon-upload  /deep/.el-upload-dragger {
+        width: 100%;
+    }
+
+
+
 </style>
