@@ -133,6 +133,11 @@ export default new Router({
                     path: '/dynamicForm',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/dynamicForm/container.vue'),
                     meta: { title: '动态表单配置' }
+                },
+                {
+                    path: '/bkftResult',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/tavern/bkftRoom.vue'),
+                    meta: { title: '不可分摊列表' }
                 }
             ]
         },

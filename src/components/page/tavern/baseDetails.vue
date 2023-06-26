@@ -14,6 +14,9 @@
             <el-tab-pane label="钉钉报销品类列表">
                 <dingBxList ref="dingBxList"></dingBxList>
             </el-tab-pane>
+            <el-tab-pane label="宝寓财务信息">
+                <byCwList ref="byCwList"></byCwList>
+            </el-tab-pane>
         </el-tabs>
 
         <!-- 编辑弹出框 -->
@@ -41,6 +44,7 @@
     import {sys} from "../../../api/api";
     import bjList from './bjList';
     import dingBxList from './dingBxList';
+    import byCwList from './byCwList';
     export default {
         name: 'basetable',
         data() {
@@ -71,7 +75,8 @@
         },
         components:{
             bjList,
-            dingBxList
+            dingBxList,
+            byCwList
         },
         methods: {
             remoteMethod(query) {

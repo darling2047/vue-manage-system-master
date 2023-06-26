@@ -117,51 +117,241 @@
         </div>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
-                <el-form-item label="省份" >
-                    <el-input v-model="form.proName"></el-input>
-                </el-form-item>
-                <el-form-item label="地市" >
-                    <el-input v-model="form.cityName"></el-input>
-                </el-form-item>
-                <el-form-item label="区县" >
-                    <el-input v-model="form.countyName"></el-input>
-                </el-form-item>
-                <el-form-item label="区域" >
-                    <el-input v-model="form.area"></el-input>
-                </el-form-item>
-                <el-form-item label="房屋名称">
-                    <el-input v-model="form.roomName"></el-input>
-                </el-form-item>
-                <el-form-item label="房型">
-                    <el-input v-model="form.roomType"></el-input>
-                </el-form-item>
-                <el-form-item label="房租">
-                    <el-input v-model="form.actualZj"></el-input>
-                </el-form-item>
-                <el-form-item label="床数">
-                    <el-input v-model="form.typeLevel"></el-input>
-                </el-form-item>
-                <el-form-item label="托管房东">
-                    <el-select v-model="form.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
-                               filterable :remote-method="remoteMethod">
-                        <el-option :label="item.name" :value="item.name" v-for="item in seleData"
-                                   :key="item.name"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="合作方式">
-                    <el-input v-model="form.interactWay"></el-input>
-                </el-form-item>
-                <el-form-item label="房租负责人">
-                    <el-input v-model="form.fzLiablePerson"></el-input>
-                </el-form-item>
-                <el-form-item label="看房负责人">
-                    <el-input v-model="form.lookLiablePerson"></el-input>
-                </el-form-item>
-                <el-form-item label="租房负责人">
-                    <el-input v-model="form.zfLiablePerson"></el-input>
-                </el-form-item>
+        <el-dialog title="编辑" :visible.sync="editVisible" width="50%">
+            <el-form ref="form" :label-position="left" :model="form" label-width="130px">
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item label="省份" >
+                            <el-input v-model="form.proName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="地市" >
+                            <el-input v-model="form.cityName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="区县" >
+                            <el-input v-model="form.countyName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="区域" >
+                            <el-input v-model="form.area"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="房屋名称">
+                            <el-input v-model="form.roomName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="房型">
+                            <el-input v-model="form.roomType"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="床数">
+                            <el-input v-model="form.typeLevel"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="房租">
+                            <el-input v-model="form.actualZj"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="托管房东">
+                            <el-select v-model="form.tgfd" placeholder="托管房东"
+                                       style="width: 100%" class="handle-select mr10" clearable remote
+                                       filterable :remote-method="remoteMethod">
+                                <el-option :label="item.name" :value="item.name" v-for="item in seleData"
+                                           :key="item.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="合作方式">
+                            <el-input v-model="form.interactWay"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="合同开始日期">
+                            <el-date-picker
+                                    v-model="form.contractStartDate"
+                                    type="date"
+                                    style="width: 100%"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="合同开始日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="合同结束日期">
+                            <el-date-picker
+                                    v-model="form.contractEndDate"
+                                    type="date"
+                                    style="width: 100%"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="合同结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="付款方式">
+                            <el-input v-model="form.payWay"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="付款月份">
+                            <el-input v-model="form.fkyf"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="支付时间要求">
+                            <el-input v-model="form.zfyq"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="交租日期">
+                            <el-date-picker
+                                    v-model="form.jzrq"
+                                    type="date"
+                                    style="width: 100%"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="合同结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="合同租金">
+                            <el-input v-model="form.htzj"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="合同押金">
+                            <el-input v-model="form.contractDeposit"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="违约金">
+                            <el-input v-model="form.wyj"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="最近交租开始时间" >
+                            <el-date-picker
+                                    v-model="form.jzStartDate"
+                                    type="date"
+                                    style="width: 100%"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="最近交租开始时间">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="最近交租结束时间" >
+                            <el-date-picker
+                                    v-model="form.jzEndDate"
+                                    type="date"
+                                    style="width: 100%"
+                                    value-format="yyyy-MM-dd"
+                                    placeholder="最近交租结束时间">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="网盘链接">
+                            <el-input v-model="form.baiduUrl"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="网盘备注">
+                            <el-input v-model="form.baiduRemark"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="房租负责人">
+                            <el-input v-model="form.fzLiablePerson"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="看房负责人">
+                            <el-input v-model="form.lookLiablePerson"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="租房负责人">
+                            <el-input v-model="form.zfLiablePerson"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="备注1">
+                            <el-input v-model="form.remarkOne"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="备注3">
+                            <el-input v-model="form.remarkThree"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="详细地址">
+                            <el-input v-model="form.address"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="经纬度">
+                            <el-input v-model="form.location"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="电号">
+                            <el-input v-model="form.electricNumber"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="缴费金额">
+                            <el-input v-model="form.electricFee"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="水号">
+                            <el-input v-model="form.waterNumber"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="缴费金额">
+                            <el-input v-model="form.waterFee"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="气号">
+                            <el-input v-model="form.airNumber"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="缴费金额">
+                            <el-input v-model="form.airFee"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="床型">
+                            <el-input v-model="form.bedType"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="沙发床">
+                            <el-input v-model="form.sofaBed"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="是否自动续租">
+                            <el-radio v-model="form.autoXz" label="是">是</el-radio>
+                            <el-radio v-model="form.autoXz" label="否">否</el-radio>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>

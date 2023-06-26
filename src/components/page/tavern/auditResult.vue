@@ -3,7 +3,7 @@
         <!-- <div class="crumbs">
              <el-breadcrumb separator="/">
                  <el-breadcrumb-item>
-                     <i class="el-icon-lx-cascades"></i> 房屋清算列表
+                     <i class="el-icon-lx-cascades"></i> 房屋清算列表(可编辑)
                  </el-breadcrumb-item>
              </el-breadcrumb>
          </div>-->
@@ -11,7 +11,7 @@
             <div class="handle-box">
                 <el-form :inline="true" :model="query" class="demo-form-inline">
                     <el-form-item label="房间名称">
-                        <el-input v-model="query.roomName" placeholder="姓名"></el-input>
+                        <el-input v-model="query.roomName" placeholder="房间名称"></el-input>
                     </el-form-item>
                     <el-form-item label="月份">
                         <el-select v-model="query.month" placeholder="月份" class="handle-select mr10" clearable>
@@ -19,6 +19,7 @@
                             <el-option key="2" label="202303" value="202303"></el-option>
                             <el-option key="3" label="202304" value="202304"></el-option>
                             <el-option key="4" label="202305" value="202305"></el-option>
+                            <el-option key="5" label="202306" value="202306"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="托管房东">
@@ -38,6 +39,9 @@
                     </el-form-item>
                 </el-form>
             </div>
+            <span style="color: red;font-size:12px">
+                {{lastUppdateTime}}
+            </span>
             <vxe-table
                     :data="tableData"
                     :tooltip-config="{enterable: true}"
@@ -190,12 +194,14 @@
                 pageTotal: 0,
                 form: {},
                 idx: -1,
-                id: -1
+                id: -1,
+                lastUppdateTime:""
             };
         },
         created() {
             this.getData();
             this.getTgfd();
+            this.getLastUpdate();
         },
         methods: {
             remoteMethod(query) {
@@ -330,6 +336,15 @@
                 sys.getTgfd(val).then(res => {
                     console.log(res);
                     this.seleData = res;
+                });
+            },
+            getLastUpdate() {
+                sys.getLastUpdate(this.query).then(res => {
+                    if (res.status != 0) {
+                        this.$message.error('当前使用人数较多,请稍后再试!');
+                        return;
+                    }
+                    this.lastUppdateTime = "数据最后更新时间："+res.obj;
                 });
             },
             getSummaries(param) {

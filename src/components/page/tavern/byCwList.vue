@@ -47,20 +47,20 @@
                     @selection-change="handleSelectionChange"
             >
                 <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                <el-table-column prop="id" label="id" align="center"></el-table-column>
-                <el-table-column prop="roomNo" label="房间" align="center"></el-table-column>
-                <el-table-column prop="tgfd" label="托管房东" align="center"></el-table-column>
-                <el-table-column prop="taskDate" label="打扫日期" align="center"></el-table-column>
-                <el-table-column prop="workerName" label="保洁员" align="center"></el-table-column>
-                <el-table-column prop="workerMobile" label="保洁员手机号" width="200" align="center"></el-table-column>
-                <el-table-column prop="cleanLevelName" label="类型" align="center"></el-table-column>
-                <el-table-column prop="price" label="价格" align="center"></el-table-column>
-                <el-table-column prop="planTime" label="时间段"></el-table-column>
-                <el-table-column prop="stateName" label="状态"></el-table-column>
-                <el-table-column prop="emplId" label="员工ID" disabled="true"></el-table-column>
-                <el-table-column prop="emplName" label="员工名称"></el-table-column>
-                <el-table-column prop="tag" label="房态"></el-table-column>
-                <el-table-column prop="month" label="月份"></el-table-column>
+                <el-table-column prop="title" label="房屋名称" align="center" width="150"></el-table-column>
+                <el-table-column prop="tgfd" label="托管房东" align="center" width="120"></el-table-column>
+                <el-table-column prop="month" label="月份" align="center" width="120"></el-table-column>
+                <el-table-column prop="chatRenterNum" label="咨询人数" width="80" align="center"></el-table-column>
+                <el-table-column prop="newContractNum" label="预定数量" width="80" align="center"></el-table-column>
+                <el-table-column prop="newContractPrice" label="预定金额" align="center"></el-table-column>
+                <el-table-column prop="roomCountSold" label="已售"></el-table-column><!--(入住间夜)-->
+                <el-table-column prop="price" label="房费(间夜金额)" width="120"></el-table-column><!--(间夜金额(订单拆分到天))-->
+                <el-table-column prop="priceAgent" label="佣金" align="center"></el-table-column><!--(间夜金额(订单拆分到天))-->
+                <el-table-column prop="priceClean" label="净房费(间夜金额)" width="130"></el-table-column><!--(间夜金额(订单拆分到天))-->
+                <el-table-column prop="financePriceClean" label="分成"></el-table-column><!--(间夜金额(订单拆分到天))-->
+                <el-table-column prop="priceAvg" label="房费(均价)"></el-table-column><!--(均价 (房费已售间夜)-->
+                <el-table-column prop="priceCleanAvg" label="净房费(均价)"></el-table-column><!--(均价 (房费已售间夜)-->
+                <el-table-column prop="createTime" label="数据更新时间"></el-table-column>
                 <!--<el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -160,7 +160,7 @@
                 this.editVisible = true;
             },
             getData() {
-                sys.getBjDetails(this.query).then(res => {
+                sys.getBycwDetails(this.query).then(res => {
                     console.log(res);
                     if (res.code != 0) {
                         this.$message.error('当前使用人数较多,请稍后再试!');
@@ -172,8 +172,8 @@
             },
             doExport() {
                 window.open(
-                    'http://112.124.56.76:9090/details/bjDetailDownLoad?' +
-                    // 'http://localhost:9090/details/bjDetailDownLoad?' +
+                    'http://112.124.56.76:9090/details/dingBxDetailDownLoad?' +
+                    // 'http://localhost:9090/details/dingBxDetailDownLoad?' +
                     'roomName=' + this.query.roomName +
                     '&month=' + this.query.month +
                     '&tgfd=' + this.query.tgfd

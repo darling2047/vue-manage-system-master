@@ -1,12 +1,12 @@
 <template>
     <div>
-       <!-- <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 房屋清算列表
-                </el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>-->
+        <!-- <div class="crumbs">
+             <el-breadcrumb separator="/">
+                 <el-breadcrumb-item>
+                     <i class="el-icon-lx-cascades"></i> 不可分摊费用列表
+                 </el-breadcrumb-item>
+             </el-breadcrumb>
+         </div>-->
         <div class="container">
             <div class="handle-box">
                 <el-form :inline="true" :model="query" class="demo-form-inline">
@@ -30,11 +30,10 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <!--
-                                                <el-button type="primary" @click="addUserBtn">新增</el-button>
-                        -->
                         <el-button type="primary" @click="onSubmit">查询</el-button>
+                        <el-button type="primary" @click="addRoomBtn">新增</el-button>
                         <el-button type="primary" @click="onExport">导出</el-button>
+                        <el-button type="primary" size="small" @click="openBatchDialog()">导入</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -45,23 +44,22 @@
                     ref="multipleTable"
                     header-cell-class-name="table-header"
                     @selection-change="handleSelectionChange"
+                    height="900"
             >
                 <!--<el-table-column type="selection" width="55" align="center"></el-table-column>-->
-                <el-table-column prop="id" label="id" align="center"></el-table-column>
-                <el-table-column prop="roomNo" label="房间" align="center"></el-table-column>
-                <el-table-column prop="tgfd" label="托管房东" align="center"></el-table-column>
-                <el-table-column prop="taskDate" label="打扫日期" align="center"></el-table-column>
-                <el-table-column prop="workerName" label="保洁员" align="center"></el-table-column>
-                <el-table-column prop="workerMobile" label="保洁员手机号" width="200" align="center"></el-table-column>
-                <el-table-column prop="cleanLevelName" label="类型" align="center"></el-table-column>
-                <el-table-column prop="price" label="价格" align="center"></el-table-column>
-                <el-table-column prop="planTime" label="时间段"></el-table-column>
-                <el-table-column prop="stateName" label="状态"></el-table-column>
-                <el-table-column prop="emplId" label="员工ID" disabled="true"></el-table-column>
-                <el-table-column prop="emplName" label="员工名称"></el-table-column>
-                <el-table-column prop="tag" label="房态"></el-table-column>
+                <el-table-column prop="id" label="id" align="center" style="display: none"></el-table-column>
+                <el-table-column prop="tgfd" label="托管房东"></el-table-column>
+                <el-table-column prop="finishTime" label="审批完成时间" width="100"></el-table-column>
+                <el-table-column prop="promoter" label="发起人姓名" width="100"></el-table-column>
+                <el-table-column prop="area" label="区域" width="130"></el-table-column>
+                <el-table-column prop="bxType" label="报销品类"></el-table-column>
+                <el-table-column prop="roomName" label="房屋名称" width="200" align="center"></el-table-column>
+                <el-table-column prop="amount" label="报销金额"></el-table-column>
+                <el-table-column prop="remark" label="费用说明" width="280"></el-table-column>
                 <el-table-column prop="month" label="月份"></el-table-column>
-                <!--<el-table-column label="操作" width="180" align="center">
+                <el-table-column prop="creator" label="创建人"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" align="center" width="160"></el-table-column>
+                <el-table-column label="操作" width="180" align="center" fixed="right">
                     <template slot-scope="scope">
                         <el-button
                                 type="text"
@@ -77,7 +75,7 @@
                         >删除
                         </el-button>
                     </template>
-                </el-table-column>-->
+                </el-table-column>
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -93,21 +91,71 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="70px">
-                <el-form-item label="用户姓名">
-                    <el-input v-model="form.userName"></el-input>
+            <el-form ref="form" :label-position="labelPosition" :model="form" label-width="100px">
+                <el-form-item label="房屋名称" >
+                    <el-input v-model="form.roomName"></el-input>
                 </el-form-item>
-                <el-form-item label="手机号">
-                    <el-input v-model="form.mobile"></el-input>
+                <el-form-item label="托管房东">
+                    <el-select v-model="form.tgfd" placeholder="托管房东" class="handle-select mr10" clearable remote
+                               filterable :remote-method="remoteMethod">
+                        <el-option :label="item.name" :value="item.name" v-for="item in seleData"
+                                   :key="item.name"></el-option>
+                    </el-select>
                 </el-form-item>
-                <el-form-item label="邮箱">
-                    <el-input v-model="form.email"></el-input>
+                <el-form-item label="区域" >
+                    <el-input v-model="form.area"></el-input>
+                </el-form-item>
+                <el-form-item label="审批完成时间" >
+                    <el-input v-model="form.finishTime"></el-input>
+                </el-form-item>
+                <el-form-item label="发起人姓名" >
+                    <el-input v-model="form.promoter"></el-input>
+                </el-form-item>
+                <el-form-item label="报销品类">
+                    <el-input v-model="form.bxType"></el-input>
+                </el-form-item>
+                <el-form-item label="报销金额">
+                    <el-input v-model="form.amount"></el-input>
+                </el-form-item>
+                <el-form-item label="费用说明">
+                    <el-input v-model="form.remark"></el-input>
+                </el-form-item>
+                <el-form-item label="月份">
+                    <el-input v-model="form.month"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
+        </el-dialog>
+        <el-dialog title="批量导入" :visible.sync="batchVisible" center :close-on-click-modal="false">
+            <div class="batchCon">
+
+                <div class="batchCon-upload">
+                    <el-upload
+                            ref="uploadRef"
+                            class="uploadButton"
+                            :action="pushAction"
+                            list-type="text"
+                            size="small"
+                            drag
+                            :with-credentials='true'
+                            :file-list="fileList"
+                            :multiple='false'
+                            :auto-upload='false'
+                            :on-success="(response, file, fileList) => handleAvatarSuccess('head', response, file, fileList)"
+                            :show-file-list="true">
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                        <div class="el-upload__tip" slot="tip">只能上传excel文件，且不超过10M</div>
+                    </el-upload>
+                </div>
+            </div>
+            <div class="dialog-footer" slot="footer" style="textAlign:center">
+                <el-button type='primary' @click='uploadSubmit'>上传</el-button>
+                <el-button type="primary" @click="downLoadModel">模板下载</el-button>
+            </div>
         </el-dialog>
     </div>
 </template>
@@ -133,6 +181,9 @@
                 multipleSelection: [],
                 delList: [],
                 editVisible: false,
+                batchVisible: false,
+                pushAction: "",
+                fileList : [],
                 pageTotal: 0,
                 form: {},
                 idx: -1,
@@ -154,13 +205,13 @@
             onExport() {
                 this.doExport();
             },
-            addUserBtn() {
+            addRoomBtn() {
                 this.updateFlag = "add";
                 this.form = {};
                 this.editVisible = true;
             },
             getData() {
-                sys.getBjDetails(this.query).then(res => {
+                sys.getBkftResult(this.query).then(res => {
                     console.log(res);
                     if (res.code != 0) {
                         this.$message.error('当前使用人数较多,请稍后再试!');
@@ -172,8 +223,8 @@
             },
             doExport() {
                 window.open(
-                    'http://112.124.56.76:9090/details/bjDetailDownLoad?' +
-                    // 'http://localhost:9090/details/bjDetailDownLoad?' +
+                    'http://112.124.56.76:9090/roomBkft/downLoad?' +
+                    // 'http://127.0.0.1:9090/roomBkft/downLoad?' +
                     'roomName=' + this.query.roomName +
                     '&month=' + this.query.month +
                     '&tgfd=' + this.query.tgfd
@@ -190,7 +241,7 @@
                 this.$confirm('确定要删除吗？', '提示', {
                     type: 'warning'
                 }).then(() => {
-                    sys.delUsers({'userId': row.userId}).then(res => {
+                    sys.delBkftRoom({'id': row.id}).then(res => {
                         if (res.status != "0") {
                             this.$message.error('网络繁忙:' + res.msg);
                             return;
@@ -227,17 +278,28 @@
             // 保存编辑
             saveEdit() {
                 this.editVisible = false;
-                this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                this.$message.success(`修改成功`);
                 this.$set(this.tableData, this.idx, this.form);
                 this.$set(this.form, "updateFlag", this.updateFlag);
+                if (this.updateFlag == 'add') {
+                    sys.addBkftRoom(this.form).then(res => {
+                        if (res.status != "0") {
+                            this.$message.error('网络繁忙:' + res.msg);
+                            return;
+                        }
+                    });
+                }
+                if (this.updateFlag == 'edit') {
+                    this.form.createTime = null;
+                    sys.updateBkftRoom(this.form).then(res => {
+                        if (res.status != "0") {
+                            this.$message.error('网络繁忙:' + res.msg);
+                            return;
+                        }
+                    });
+                }
+                this.getData();
                 this.updateFlag = "";
-                sys.editUsers(this.form).then(res => {
-                    if (res.status != "0") {
-                        this.$message.error('网络繁忙:' + res.msg);
-                        return;
-                    }
-                    this.getData();
-                });
             },
             // 分页导航
             handlePageChange(val) {
@@ -251,6 +313,28 @@
                     console.log(res);
                     this.seleData = res;
                 });
+            },
+            openBatchDialog(data) {
+                this.batchType = data;
+                this.batchVisible = true;
+                this.fileList = [];
+                this.pushAction = 'http://112.124.56.76:9090/roomBkft/bkftImport';
+                // this.pushAction = 'http://localhost:9090/roomBkft/bkftImport';
+            },
+            downLoadModel() {
+                window.open('http://112.124.56.76:9090/roomBkft/templateExport?')
+                // window.open('http://localhost:9090/roomBkft/templateExport?')
+            },
+            handleAvatarSuccess(field, response, file, fileList) {
+                if (response.status === 0) {
+                    this.$message.success('批量导入成功');
+                    this.getData();
+                }
+                // this.$forceUpdate();
+            },
+            uploadSubmit() {
+                this.$refs.uploadRef.submit();
+                this.batchVisible = false;
             }
         }
     };
@@ -288,5 +372,21 @@
         margin: auto;
         width: 40px;
         height: 40px;
+    }
+
+
+    .batchCon .batchCon-model {
+        color: #409eff;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+
+    .batchCon .batchCon-upload /deep/.el-upload {
+        width: 100%;
+    }
+
+    .batchCon .batchCon-upload  /deep/.el-upload-dragger {
+        width: 100%;
     }
 </style>
