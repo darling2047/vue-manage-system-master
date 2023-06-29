@@ -210,6 +210,7 @@
             },
             onSubmit() {
                 this.getData();
+                this.getLastUpdate();
             },
             onExport() {
                 this.doExport();
@@ -242,6 +243,7 @@
             handleSearch() {
                 this.$set(this.query, 'currentPageNo', 1);
                 this.getData();
+                this.getLastUpdate();
             },
             // 删除操作
             handleUpdate(index, row) {
@@ -329,6 +331,7 @@
             handlePageChange(val) {
                 this.$set(this.query, 'currentPageNo', val);
                 this.getData();
+                this.getLastUpdate();
             },
             getTgfd(val) {
                 this.seleData = []
