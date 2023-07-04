@@ -8,7 +8,7 @@ export default new Router({
         {
             path: '/',
             //redirect: '/dashboard'
-            redirect: '/roomAudit'
+            redirect: '/dashboard'
         },
         {
             path: '/',
@@ -17,7 +17,7 @@ export default new Router({
             children: [
                 {
                     path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
+                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/tavern/Dashboard.vue'),
                     meta: { title: '系统首页' }
                 },
                 {

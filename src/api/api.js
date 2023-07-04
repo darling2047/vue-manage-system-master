@@ -42,6 +42,13 @@ export const sys = {
             params: params
         });
     },
+    getLastUpdate: params => {
+        return request({
+            url: baseUrl + '/auditResult/getLastUpdate',
+            method: 'get',
+            params: params
+        });
+    },
     getBjDetails: params => {
         return request({
             url: baseUrl + '/details/getBjDetails',
@@ -52,6 +59,27 @@ export const sys = {
     getDingBxDetails: params => {
         return request({
             url: baseUrl + '/details/getDingBxDetails',
+            method: 'get',
+            params: params
+        });
+    },
+    getBycwDetails: params => {
+        return request({
+            url: baseUrl + '/details/getBycwDetails',
+            method: 'get',
+            params: params
+        });
+    },
+    getOverview: params => {
+        return request({
+            url: baseUrl + '/overview/getOverview',
+            method: 'get',
+            params: params
+        });
+    },
+    getLoginTime: params => {
+        return request({
+            url: baseUrl + '/overview/getLastLoginTime',
             method: 'get',
             params: params
         });
@@ -87,6 +115,34 @@ export const sys = {
     updateResult: params => {
         return request({
             url: baseUrl + '/auditResult/update',
+            method: 'post',
+            params: params
+        });
+    },
+    getBkftResult: params => {
+        return request({
+            url: baseUrl + '/roomBkft/getList',
+            method: 'get',
+            params: params
+        });
+    },
+    addBkftRoom: params => {
+        return request({
+            url: baseUrl + '/roomBkft/create',
+            method: 'post',
+            params: params
+        });
+    },
+    updateBkftRoom: params => {
+        return request({
+            url: baseUrl + '/roomBkft/update',
+            method: 'post',
+            params: params
+        });
+    },
+    delBkftRoom: params => {
+        return request({
+            url: baseUrl + '/roomBkft/delete',
             method: 'post',
             params: params
         });

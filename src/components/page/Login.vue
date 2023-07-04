@@ -61,7 +61,9 @@ export default {
                         }
                         console.log("登录成功。。。。。。",res);
                         this.$message.success('登录成功');
-                        localStorage.setItem('ms_username', this.param.loginName);
+                        debugger
+                        localStorage.setItem('ms_username', res.obj.userName);
+                        localStorage.setItem('ms_user_roles', res.obj.roleIds);
                         this.$router.push('/');
                     });
                 } else {

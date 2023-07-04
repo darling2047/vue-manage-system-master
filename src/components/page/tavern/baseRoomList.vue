@@ -164,10 +164,11 @@
                         <el-form-item label="托管房东">
                             <el-select v-model="form.tgfd" placeholder="托管房东"
                                        style="width: 100%" class="handle-select mr10" clearable remote
-                                       filterable :remote-method="remoteMethod">
+                                       filterable :remote-method="remoteMethod" v-if="updateFlag=='edit'">
                                 <el-option :label="item.name" :value="item.name" v-for="item in seleData"
                                            :key="item.name"></el-option>
                             </el-select>
+                            <el-input v-else v-model="form.tgfd"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
