@@ -69,7 +69,11 @@
                 <vxe-table-column field="rzDays" title="入住天数" align="center" width="90"></vxe-table-column>
                 <vxe-table-column field="priceClean" title="平台打款" width="90"></vxe-table-column>
                 <vxe-table-column field="actualZj" title="房租" width="90"
-                                  :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
+                                  :edit-render="{name: 'input', attrs: {type: 'text'}}">
+                   <!-- <template slot-scope="scope">
+                        {{ scope.actualZj }}({{ scope.actualZj }})
+                    </template>-->
+                </vxe-table-column>
                 <vxe-table-column field="khFee" title="客耗品" width="90"
                                   :edit-render="{name: 'input', attrs: {type: 'text'}}"></vxe-table-column>
                 <vxe-table-column field="bjFee" title="保洁" width="90"
@@ -179,6 +183,8 @@
             return {
                 seleData: [],
                 updateFlag: '',
+                pushAction: '',
+                fileList : [],
                 labelPosition: 'left',
                 query: {
                     roomName: '',
